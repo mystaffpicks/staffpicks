@@ -5,6 +5,8 @@ import {
   timestamp,
   jsonb,
   pgEnum,
+  integer,
+  boolean,
   index,
   foreignKey,
 } from 'drizzle-orm/pg-core';
@@ -48,8 +50,6 @@ export const platformPromptTemplates = pgTable('platform_prompt_templates', {
   active: boolean('active').notNull().default(true),
   updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
-
-import { integer, boolean } from 'drizzle-orm/pg-core';
 
 export type DbScreenshotSync = typeof screenshotSyncs.$inferSelect;
 export type DbPlatformPromptTemplate = typeof platformPromptTemplates.$inferSelect;
