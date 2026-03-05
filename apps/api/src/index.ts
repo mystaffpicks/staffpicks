@@ -1,7 +1,9 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
+import rateLimit from '@fastify/rate-limit';
 import { healthRoutes } from './routes/health.js';
+import { authRoutes } from './routes/auth.js';
 
 const PORT = Number(process.env.PORT) || 3001;
 const HOST = process.env.HOST || '0.0.0.0';
@@ -19,12 +21,19 @@ async function buildApp() {
   // Plugins
   await app.register(helmet);
   await app.register(cors, {
-    origin: process.env.NODE_ENV === 'production' ? ['https://mystaffpicks.com'] : true,
+    origin: process.env.NODE_ENV === 'production'
+      ? ['https://mystaffpicks.com', 'https://app.mystaffpicks.com']
+      : true,
     credentials: true,
+  });
+  await app.register(rateLimit, {
+    max: 100,
+    timeWindow: '1 minute',
   });
 
   // Routes
   await app.register(healthRoutes, { prefix: '/api' });
+  await app.register(authRoutes, { prefix: '/api' });
 
   return app;
 }

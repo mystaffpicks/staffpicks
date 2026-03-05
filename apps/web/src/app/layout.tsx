@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Bebas_Neue, Libre_Baskerville, Karla, IBM_Plex_Mono } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import './globals.css';
 
 const bebasNeue = Bebas_Neue({
@@ -60,12 +62,37 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${bebasNeue.variable} ${libreBaskerville.variable} ${karla.variable} ${ibmPlexMono.variable} font-sans bg-background text-cream antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorBackground: '#1A1612',
+          colorPrimary: '#E8A44A',
+          colorText: '#F5EDD6',
+          colorTextSecondary: '#B8A898',
+          colorInputBackground: '#2A2420',
+          colorInputText: '#F5EDD6',
+          borderRadius: '0px',
+          fontFamily: 'var(--font-karla)',
+        },
+        elements: {
+          card: 'bg-surface border border-border',
+          headerTitle: 'font-display text-amber tracking-widest',
+          formButtonPrimary:
+            'bg-amber text-background font-mono font-medium tracking-wider hover:bg-amber/90 rounded-none',
+          footerActionLink: 'text-amber hover:text-amber/80',
+          socialButtonsBlockButton:
+            'border border-border bg-surface text-cream hover:bg-border rounded-none',
+        },
+      }}
+    >
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${bebasNeue.variable} ${libreBaskerville.variable} ${karla.variable} ${ibmPlexMono.variable} font-sans bg-background text-cream antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
