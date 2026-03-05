@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #1A1612;
+    --foreground: #F5EDD6;
+    --amber: #E8A44A;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  /* Film grain overlay */
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* VHS-spine card effect */
+  .vhs-spine {
+    background: linear-gradient(135deg, #2A2420 0%, #1E1A16 50%, #2A2420 100%);
+    border-left: 3px solid var(--amber);
+    box-shadow: inset -2px 0 8px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Rental sticker badge */
+  .rental-sticker {
+    font-family: var(--font-ibm-plex), monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--amber);
+    color: #1A1612;
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+}
