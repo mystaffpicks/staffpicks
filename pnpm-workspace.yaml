@@ -1,3 +1,12 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - apps/*
+  - packages/*
+
+ignoredBuiltDependencies:
+  - '@clerk/shared'
+  - browser-tabs-lock
+  - bufferutil
+  - core-js
+  - esbuild
+  - sharp
+  - utf-8-validate

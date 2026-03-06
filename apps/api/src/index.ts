@@ -5,6 +5,7 @@ import rateLimit from '@fastify/rate-limit';
 import { healthRoutes } from './routes/health.js';
 import { authRoutes } from './routes/auth.js';
 import { contentRoutes } from './routes/content.js';
+import { watchRoutes } from './routes/watch.js';
 
 const PORT = Number(process.env.PORT) || 3001;
 const HOST = process.env.HOST || '0.0.0.0';
@@ -36,6 +37,7 @@ async function buildApp() {
   await app.register(healthRoutes, { prefix: '/api' });
   await app.register(authRoutes, { prefix: '/api' });
   await app.register(contentRoutes, { prefix: '/api' });
+  await app.register(watchRoutes, { prefix: '/api' });
 
   return app;
 }
