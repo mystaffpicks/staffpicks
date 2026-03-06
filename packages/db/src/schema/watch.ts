@@ -20,6 +20,9 @@ export const watchStatusEnum = pgEnum('watch_status', [
   'watching',
   'dropped',
   'rewatching',
+  'want_to_watch',
+  'returned_early',
+  'spotted',
 ]);
 
 export const watchEntrySourceEnum = pgEnum('watch_entry_source', [
@@ -48,6 +51,29 @@ export const watchEntries = pgTable(
     platform: text('platform'),
     source: watchEntrySourceEnum('source').notNull().default('manual'),
     match_confidence: real('match_confidence'),
+
+    // ── v2 additions ────────────────────────────────────────────────────────
+    // Save/discovery context
+    save_reason: text('save_reason'),
+    save_reason_tag: text('save_reason_tag'), // friend_rec | trailer | trending | my_taste | custom
+    // Post-watch mood
+    post_watch_mood: text('post_watch_mood'), // blown_away | satisfied | meh | emotional | disappointed | processing
+    // Review enrichment
+    memorable_moment: text('memorable_moment'),
+    would_recommend: text('would_recommend'), // yes | maybe | no
+    // Returned-early fields
+    returned_early_reason: text('returned_early_reason'), // lost_interest | too_slow | not_expected | too_heavy | life_busy | not_for_me | custom
+    returned_early_note: text('returned_early_note'),
+    // Spotted / ambient awareness
+    spotted_location: text('spotted_location'),
+    spotted_at: timestamp('spotted_at', { withTimezone: true }),
+    // Source merge metadata
+    merged_from_sources: jsonb('merged_from_sources').$type<Record<string, unknown>[]>(),
+    // Spoiler controls
+    spoiler_tagged: boolean('spoiler_tagged').notNull().default(false),
+    spoiler_episode_ref: text('spoiler_episode_ref'),
+    // ── end v2 ──────────────────────────────────────────────────────────────
+
     created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },

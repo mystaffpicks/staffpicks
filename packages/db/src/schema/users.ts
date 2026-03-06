@@ -4,6 +4,7 @@ import {
   text,
   timestamp,
   boolean,
+  integer,
   jsonb,
   pgEnum,
   index,
@@ -30,6 +31,23 @@ export const users = pgTable(
     sync_reminder_time: text('sync_reminder_time').notNull().default('21:00'),
     onboarding_completed: boolean('onboarding_completed').notNull().default(false),
     push_token: text('push_token'),
+
+    // ── v2 additions: age / legal compliance ────────────────────────────────
+    age_bracket: text('age_bracket'),              // '13-17' | '18+'
+    is_minor: boolean('is_minor').notNull().default(false),
+    tos_accepted_at: timestamp('tos_accepted_at', { withTimezone: true }),
+    tos_version: text('tos_version'),
+    privacy_policy_accepted_at: timestamp('privacy_policy_accepted_at', { withTimezone: true }),
+    privacy_policy_version: text('privacy_policy_version'),
+    children_content_confirmed: boolean('children_content_confirmed').notNull().default(false),
+
+    // ── v2 additions: spoiler preferences ───────────────────────────────────
+    spoiler_mode: text('spoiler_mode').notNull().default('standard'), // strict | standard | off
+    spoiler_window_movies: integer('spoiler_window_movies').notNull().default(7),   // days
+    spoiler_window_weekly: integer('spoiler_window_weekly').notNull().default(3),   // days
+    spoiler_window_season: integer('spoiler_window_season').notNull().default(14),  // days
+    // ── end v2 ──────────────────────────────────────────────────────────────
+
     created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },

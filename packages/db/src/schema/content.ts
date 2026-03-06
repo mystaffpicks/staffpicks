@@ -5,6 +5,7 @@ import {
   timestamp,
   jsonb,
   pgEnum,
+  integer,
   index,
 } from 'drizzle-orm/pg-core';
 
@@ -47,12 +48,20 @@ export const content = pgTable(
       Array<{ platform: string; url?: string; available_regions?: string[] }>
     >(),
     match_aliases: jsonb('match_aliases').$type<string[]>(),
+
+    // ── v2 additions: series/episode hierarchy ──────────────────────────────
+    parent_id: uuid('parent_id'),            // e.g. episode → season → series
+    episode_number: integer('episode_number'),
+    season_number: integer('season_number'),
+    // ── end v2 ──────────────────────────────────────────────────────────────
+
     created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => ({
     titleIdx: index('content_title_idx').on(t.title),
     contentTypeIdx: index('content_type_idx').on(t.content_type),
+    parentIdIdx: index('content_parent_id_idx').on(t.parent_id),
   })
 );
 
