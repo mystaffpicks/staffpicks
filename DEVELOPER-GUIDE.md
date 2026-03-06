@@ -16,7 +16,11 @@ You don't need to write any code yourself. Your job is to:
 
 ## Your toolbox
 
-You'll need these installed on your Mac. Open **Terminal** (press `Cmd + Space`, type `Terminal`, hit Enter) and run each check:
+You're on Windows — everything works great. You do **not** need a Mac.
+
+> **The one exception:** Submitting to the iOS App Store requires compiling with Xcode, which only runs on Mac. We get around this entirely using **EAS Build** — Expo's cloud service that compiles your iOS app on their Mac servers. You just run a command and they handle it. No Mac needed.
+
+Open **PowerShell** or **Windows Terminal** and run each check:
 
 ```bash
 # Check Node.js (should say v20 or higher)
@@ -29,7 +33,10 @@ pnpm --version
 git --version
 ```
 
-If anything is missing, let me know and I'll give you the install command.
+If anything is missing:
+- **Node.js** → download from [nodejs.org](https://nodejs.org) (LTS version)
+- **pnpm** → run `npm install -g pnpm` in PowerShell
+- **Git** → download from [git-scm.com](https://git-scm.com/download/win)
 
 ---
 
@@ -57,7 +64,7 @@ StaffPicks/
 
 ### Step 1 — Install dependencies
 
-Open Terminal, navigate to your StaffPicks folder, and run:
+Open **PowerShell** or **Windows Terminal**, navigate to your StaffPicks folder, and run:
 
 ```bash
 cd "C:\Users\AndrewForbes\OneDrive - luminatussoftware.com\Desktop\Claude\StaffPicks"
@@ -231,10 +238,15 @@ Railway and Supabase both offer free PostgreSQL databases. Create one, copy the 
 
 ### Mobile app → Expo (TestFlight / Play Store)
 
+You don't need a Mac. EAS Build compiles iOS apps in the cloud.
+
 1. Install EAS CLI: `npm install -g eas-cli`
-2. Log in: `eas login`
-3. Build for iOS: `pnpm --filter mobile build:ios`
-4. This creates an `.ipa` file you can upload to TestFlight via App Store Connect
+2. Log in: `eas login` (create a free Expo account at [expo.dev](https://expo.dev))
+3. Build for iOS (cloud): `pnpm --filter mobile build:ios`
+4. Build for Android: `pnpm --filter mobile build:android`
+5. EAS emails you when the build is ready — download and submit to TestFlight / Play Store from your browser
+
+> **Apple Developer account** ($99/year) is required to publish to the App Store or TestFlight. Google Play is a one-time $25 fee.
 
 ---
 
@@ -280,4 +292,4 @@ git log --oneline -10
 
 ---
 
-*Last updated: Phase 1.1*
+*Last updated: Phase 1.1 — Windows*
